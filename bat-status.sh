@@ -87,7 +87,7 @@ BATCOUNT="0"
 [[ $(cat ${CHK}/AC/online) -eq 1 ]] && break
 
 
-
+# Sum up the battery capacity of the system.
 for BAT in ${CHK}/BAT*; do
 	CAPACITY="$(cat ${BAT}/capacity)"
 	(( BATCOUNT++ ))
@@ -115,7 +115,7 @@ if [ ${WARNING} -eq 1 -o ${CRITICAL} -eq 1 ]; then
 	WARNING="0"
 	CRITICAL="0"
 fi
-
+# Resetting results for next run.
 RESULT=""
 
 # Leave the loop if called as a system job. e.g. systemd/timer
