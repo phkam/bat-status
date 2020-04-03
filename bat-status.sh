@@ -96,12 +96,11 @@ for BAT in ${CHK}/BAT*; do
 	CAPSUM="$(( ${CAPSUM} + ${CAPACITY} ))"
 done
 
+# Calculate average and trigger warning or critical state.
 AVERAGE="$(( ${CAPSUM} / ${BATCOUNT} ))"
 [[ ${AVERAGE} -lt ${WARN} ]] && WARNING="1" && LEVEL="normal" && MSG="Warning"
 [[ ${AVERAGE} -lt ${CRIT} ]] && CRITICAL="1" && LEVEL="critical" && MSG="Critical"
 
-#[[ ${WARNING} -eq 1 ]] && LEVEL="normal" && MSG="Warning"
-#[[ ${CRITICAL} -eq 1 ]] && LEVEL="critical" && MSG="Critical"
 
 shopt -s extglob
 RESULT="${RESULT%%*( )}"
