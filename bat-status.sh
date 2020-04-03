@@ -36,42 +36,42 @@ SLEEP="30"
 SYSTEM="0"
 
 check_int () {
-		## Check whether passed argument is an integer (unsigned)
-		# =~ check for regular expression; works only with [[ ]]
-		[[ ! ${1} =~ ^[0-9]+$ ]] && echo "Value of ${2} must be an integer." && exit 30
+	## Check whether passed argument is an integer (unsigned)
+	# =~ check for regular expression; works only with [[ ]]
+	[[ ! ${1} =~ ^[0-9]+$ ]] && echo "Value of ${2} must be an integer." && exit 30
 }
 
 check_range () {
-		## Check if the value is between 1 and 100. You may change this range, if you like.
-		## expects for $1 the passed value to check
-		##         for $2 the name of the commandline switch this value belongs to.
+	## Check if the value is between 1 and 100. You may change this range, if you like.
+	## expects for $1 the passed value to check
+	##         for $2 the name of the commandline switch this value belongs to.
 
-		[[ ${1} -lt   1 ]] && echo "Value for ${2} must be greater than 0." && exit 31
-		[[ ${1} -gt 100 ]] && echo "Value for ${2} must be less or equal 100." && exit 32
+	[[ ${1} -lt   1 ]] && echo "Value for ${2} must be greater than 0." && exit 31
+	[[ ${1} -gt 100 ]] && echo "Value for ${2} must be less or equal 100." && exit 32
 }
 
 display_help () {
-		echo A sensible help and usage needs to be written.
-		echo For now please refer to the comments in the script.
+	echo A sensible help and usage needs to be written.
+	echo For now please refer to the comments in the script.
 }
 
 while getopts shw:c:t: OPTION; do
-		case $OPTION in
-				h) display_help ;;
-				s) SYSTEM="1" ;;
-				w) WARN=$OPTARG
-						check_int ${WARN} -w
-						check_range ${WARN} -w
-						;;
-				c) CRIT=$OPTARG
-						check_int ${CRIT} -c
-						check_range ${CRIT} -c
-						;;
-				t) SLEEP=$OPTARG
-						check_int ${SLEEP} -t
-						;;
-				*) exit 20 ;;
-		esac
+	case $OPTION in
+		h) display_help ;;
+		s) SYSTEM="1" ;;
+		w) WARN=$OPTARG
+		   check_int ${WARN} -w
+		   check_range ${WARN} -w
+		   ;;
+		c) CRIT=$OPTARG
+		   check_int ${CRIT} -c
+		   check_range ${CRIT} -c
+		   ;;
+		t) SLEEP=$OPTARG
+		   check_int ${SLEEP} -t
+		   ;;
+		*) exit 20 ;;
+	esac
 done
 
 
@@ -89,11 +89,11 @@ BATCOUNT="0"
 
 
 for BAT in ${CHK}/BAT*; do
-		CAPACITY="$(cat ${BAT}/capacity)"
-		(( BATCOUNT++ ))
+	CAPACITY="$(cat ${BAT}/capacity)"
+	(( BATCOUNT++ ))
 
-		RESULT="${RESULT} ${BAT##*/}: ${CAPACITY}%  "
-		CAPSUM="$(( ${CAPSUM} + ${CAPACITY} ))"
+	RESULT="${RESULT} ${BAT##*/}: ${CAPACITY}%  "
+	CAPSUM="$(( ${CAPSUM} + ${CAPACITY} ))"
 done
 
 AVERAGE="$(( ${CAPSUM} / ${BATCOUNT} ))"
@@ -108,12 +108,12 @@ RESULT="${RESULT%%*( )}"
 shopt -u extglob
 
 if [ ${WARNING} -eq 1 -o ${CRITICAL} -eq 1 ]; then
-		notify-send --urgency=${LEVEL} "Battery is running low" "LEVEL=${MSG}<br/>CAPACITY=${RESULT}"
-		#TODO: Make this message a bit nicer; and include the $AVERAGE value.
-		RETVAL="$?"
-		# Resetting triggers for next run. Otherwise they will always trigger. sad.
-		WARNING="0"
-		CRITICAL="0"
+	notify-send --urgency=${LEVEL} "Battery is running low" "LEVEL=${MSG}<br/>CAPACITY=${RESULT}"
+	#TODO: Make this message a bit nicer; and include the $AVERAGE value.
+	RETVAL="$?"
+	# Resetting triggers for next run. Otherwise they will always trigger. sad.
+	WARNING="0"
+	CRITICAL="0"
 fi
 
 RESULT=""
