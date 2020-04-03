@@ -40,8 +40,8 @@ some of these are not yet implemented.
 
 ### Examples
 
-`bat-check.sh -w 50 -c 10`
+`bat-check.sh -w 50 -c 10`  
 Set the warning treshold to 50% and critical treshold to 10% battery capacity.
 
-`bat-check.sh -t 120
+`bat-check.sh -t 120`  
 Set the loop timer to 2 minutes. The script will rerun after this time.
