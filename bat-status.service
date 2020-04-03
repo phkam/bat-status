@@ -1,0 +1,6 @@
+[Unit]
+Description=Battery Check and notification
+
+[Service]
+Environment='SYSTEMD=-s'
+ExecStart=/opt/bat-status/bat-status.sh ${SYSTEMD}

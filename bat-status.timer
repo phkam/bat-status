@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Battery Checker once every 30 seconds
+
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=30s
+
+[Install]
+WantedBy=timers.target
