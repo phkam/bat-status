@@ -18,7 +18,7 @@
 
 CHK="/sys/class/power_supply"
 
-# warning and critical treshold
+# warning and critical threshold
 WARN="20"
 CRIT="15"
 
@@ -32,18 +32,20 @@ LEVEL=""
 
 SLEEP="30"
 
-# Whether the script was called from a system job or not (-s option)
+# whether the script was called from a system job or not (-s option)
 SYSTEM="0"
 
 check_int () {
 	## Check whether passed argument is an integer (unsigned)
+	## expects for $1 the value to check
+	##         for $2 the name of the commandline switch this value belongs to.
 	# =~ check for regular expression; works only with [[ ]]
 	[[ ! ${1} =~ ^[0-9]+$ ]] && echo "Value of ${2} must be an integer." && exit 30
 }
 
 check_range () {
 	## Check if the value is between 1 and 100. You may change this range, if you like.
-	## expects for $1 the passed value to check
+	## expects for $1 the value to check
 	##         for $2 the name of the commandline switch this value belongs to.
 
 	[[ ${1} -lt   1 ]] && echo "Value for ${2} must be greater than 0." && exit 31
@@ -102,8 +104,12 @@ AVERAGE="$(( ${CAPSUM} / ${BATCOUNT} ))"
 [[ ${AVERAGE} -lt ${CRIT} ]] && CRITICAL="1" && LEVEL="critical" && MSG="Critical"
 
 
+# Enable "Extended pattern matching operators".
+# This way +( ) matches one or more spaces and cuts away all spaces
+# from the right side of the Var’s value (indicated by %%).
+# TODO: Move this into the if loop below
 shopt -s extglob
-RESULT="${RESULT%%*( )}"
+RESULT="${RESULT%%+( )}"
 shopt -u extglob
 
 if [ ${WARNING} -eq 1 -o ${CRITICAL} -eq 1 ]; then
@@ -117,7 +123,7 @@ fi
 # Resetting results for next run.
 RESULT=""
 
-# Leave the loop if called as a system job. e.g. systemd/timer
+# Leave the loop if called as a system job. e.g. systemd/timer. Set with -s option.
 [[ ${SYSTEM} -eq 1 ]] && break
 
 sleep ${SLEEP}
