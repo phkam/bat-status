@@ -2,5 +2,9 @@
 Description=Battery Check and notification
 
 [Service]
+User=<ID>
 Environment='SYSTEMD=-s'
+# Environment='DISPLAY=:0'
+# Environment='XAUTHORITY="/home/<USERNAME>/.Xauthority'
+Environment='DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/<ID>/bus'
 ExecStart=/opt/bat-status/bat-status.sh ${SYSTEMD}

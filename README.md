@@ -10,8 +10,12 @@ is displayed if the average capacity sinks below the $WARN or $CRIT treshold.
 
 Either run the script yourself, put it in your autostart or use the systemd
 service and timer which are part of this repository.
+
 If you use the timer, install the shell script to `/opt/bat-status/bat-status.sh`
 and put the `.service` and `.timer` files in `/etc/systemd/system/`.
+Edit in `bat-status.service` edit the user ID of the user for which the check
+should run. Also make sure the `DBUS_SESSION_BUS_ADDRESS` is set to the correct
+value. If it doesn’t work, try adding a `DISPLAY` and/or `XAUTHORITY` variable.
 Then you need to `systemctl daemon reload` and activate the timer with
 `systemctl start bat-status.timer`. Also enable the unit to load on system start
 `systemctl enable bat-status-timer`.
