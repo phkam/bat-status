@@ -1,10 +1,10 @@
 # bat-status
 Check battery capacity and send desktop notification via `notify-send`
-if it gets low.
+if the voltage drops to a certain level.
 
-The battery capacity is read from `/sys/class/ppower_supply/BAT*/capacity`.
-For every battery the current capacity is taken and a warning notification
-is displayed if the average capacity sinks below the $WARN or $CRIT treshold.
+The battery charge percentage is read from `/sys/class/power_supply/BAT*/capacity`.
+For every battery the current charge is taken and a warning notification
+is displayed if the average battery level sinks below the $WARN or $CRIT threshold.
 
 ## Install and run
 
@@ -13,12 +13,13 @@ service and timer which are part of this repository.
 
 If you use the timer, install the shell script to `/opt/bat-status/bat-status.sh`
 and put the `.service` and `.timer` files in `/etc/systemd/system/`.
-Edit in `bat-status.service` edit the user ID of the user for which the check
+In `bat-status.service` edit the user ID of the user for which the check
 should run. Also make sure the `DBUS_SESSION_BUS_ADDRESS` is set to the correct
 value. If it doesn’t work, try adding a `DISPLAY` and/or `XAUTHORITY` variable.
-Then you need to `systemctl daemon reload` and activate the timer with
-`systemctl start bat-status.timer`. Also enable the unit to load on system start
-`systemctl enable bat-status-timer`.
+
+To load the new systemd files you have to reload the daemon with
+`systemctl daemon-reload`. You can start the service and enable it
+on system startup with `systemctl enable --now bat-status.timer`.
 
 ### Dependencies
 
@@ -31,7 +32,7 @@ Then you need to `systemctl daemon reload` and activate the timer with
 Calling bat-check.sh by itself has reasonable defaults. Without any options
 the script reruns every 30 seconds.
 
-some of these are not yet implemented.
+*some of these are not yet implemented.*
 
 ```
 -h      Display help
