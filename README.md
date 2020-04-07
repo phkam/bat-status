@@ -1,6 +1,6 @@
 # bat-status
 Check battery capacity and send desktop notification via `notify-send`
-if it reaches certain charge levels.
+if the voltage drops to a certain level.
 
 The battery charge percentage is read from `/sys/class/power_supply/BAT*/capacity`.
 For every battery the current charge is taken and a warning notification
@@ -12,7 +12,9 @@ Either run the script yourself, put it in your autostart or use the systemd
 service and timer which are part of this repository.
 If you use the timer, install the shell script to `/opt/bat-status/bat-status.sh`
 and put the `.service` and `.timer` files in `/etc/systemd/system/`.
-To load the new systemd files you have to reload the daemon with `systemctl daemon-reload`. You can start the service and enable it on system startup with `systemctl enable --now bat-status.timer`.
+To load the new systemd files you have to reload the daemon with
+`systemctl daemon-reload`. You can start the service and enable it
+on system startup with `systemctl enable --now bat-status.timer`.
 
 ### Dependencies
 
