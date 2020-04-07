@@ -12,6 +12,9 @@ Either run the script yourself, put it in your autostart or use the systemd
 service and timer which are part of this repository.
 If you use the timer, install the shell script to `/opt/bat-status/bat-status.sh`
 and put the `.service` and `.timer` files in `/etc/systemd/system/`.
+Edit in `bat-status.service` edit the user ID of the user for which the check
+should run. Also make sure the `DBUS_SESSION_BUS_ADDRESS` is set to the correct
+value. If it doesn’t work, try adding a `DISPLAY` and/or `XAUTHORITY` variable.
 To load the new systemd files you have to reload the daemon with
 `systemctl daemon-reload`. You can start the service and enable it
 on system startup with `systemctl enable --now bat-status.timer`.
